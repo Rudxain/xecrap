@@ -21,8 +21,11 @@ fn main() {
             }
         })
     {
-        emailoid
-            .find_iter(&f_cont)
-            .map(|m| space.replace_all(m.as_str(), ""));
+        for email in emailoid.find_iter(&f_cont).map(|m| {
+            let tmp = space.replace_all(m.as_str(), "");
+            atoid.replace_all(&tmp, "@")
+        }) {
+            println!("{email}")
+        }
     }
 }
