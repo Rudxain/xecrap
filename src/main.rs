@@ -1,10 +1,14 @@
+use std::process::ExitCode;
+
 use regex::Regex;
 
-fn main() {
+fn main() -> ExitCode {
     let emailoid = Regex::new(r"\w+\s*\S?(@|at)\S?\s*\w+\s*\S?(\.|dot)\S?\s+(com|net|org)")
         .unwrap_or_else(|_| unreachable!());
     let space = Regex::new(r"\s").unwrap_or_else(|_| unreachable!());
     let atoid = Regex::new(r"\S?(@|at)\S?").unwrap_or_else(|_| unreachable!());
+
+    let mut stat = ExitCode::SUCCESS;
 
     for f_cont in std::env::args()
         // ignore program name
@@ -16,6 +20,7 @@ fn main() {
             Ok(s) => Some(s),
             // warn on error
             Err(e) => {
+                stat = ExitCode::FAILURE;
                 eprintln!("{e}");
                 None
             }
@@ -28,4 +33,5 @@ fn main() {
             println!("{email}");
         }
     }
+    stat
 }
