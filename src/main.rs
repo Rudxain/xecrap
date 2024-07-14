@@ -3,7 +3,7 @@ use std::process::ExitCode;
 use regex::Regex;
 
 fn main() -> ExitCode {
-    let emailoid = Regex::new(r"\w+\s*\S?(@|at)\S?\s*\w+\s*\S?(\.|dot)\S?\s+com")
+    let emailoid = Regex::new(r"\w+\s*\S?(@|at)\S?\s*\w+\s*\S?(\.|dot)\S?\s+(com|net|org)")
         .unwrap_or_else(|_| unreachable!());
     let space = Regex::new(r"\s").unwrap_or_else(|_| unreachable!());
     let atoid = Regex::new(r"\S?(@|at)\S?").unwrap_or_else(|_| unreachable!());
