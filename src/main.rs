@@ -21,11 +21,11 @@ fn main() {
             }
         })
     {
-        for email in emailoid.find_iter(&f_cont).map(|m| {
-            let tmp = space.replace_all(m.as_str(), "");
-            atoid.replace_all(&tmp, "@")
-        }) {
-            println!("{email}")
+        // find all sub-strs that look like email addresses
+        for m in emailoid.find_iter(&f_cont) {
+            let no_ws = space.replace_all(m.as_str(), "");
+            let email = atoid.replace_all(&no_ws, "@");
+            println!("{email}");
         }
     }
 }
