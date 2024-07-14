@@ -6,11 +6,12 @@ use regex::Regex;
 use std::process::ExitCode;
 
 fn main() -> ExitCode {
-    let emailoid = unwrapable_r(Regex::new(
-        r"\w++\s*+\S??(@|at)\S??\s*+\w++\s*+\S??(\.|dot)\S??\s*+[a-zA-Z\d\-]{1,24}+",
+    let is_emailoid = unwrapable_r(Regex::new(
+        r"\w++\s*+\S??(@|at)\S??\s*+(?:[a-zA-Z\d\-]++\s*+\S??(\.|dot)\S??\s*+)++[a-zA-Z\d\-]{1,24}+",
     ));
     let space = unwrapable_r(Regex::new(r"\s"));
     let atoid = unwrapable_r(Regex::new(r"\S??(@|at)\S??"));
+    let dotoid = unwrapable_r(Regex::new(r"\S??(\.|dot)\S??"));
 
     let mut stat = ExitCode::SUCCESS;
 
@@ -31,9 +32,10 @@ fn main() -> ExitCode {
         })
         .for_each(|file_content| {
             // find all sub-strs that look like email addresses
-            for m in emailoid.find_iter(&file_content) {
-                let no_space = space.replace_all(m.as_str(), "");
-                let email = atoid.replace_all(&no_space, "@");
+            for emailoid in is_emailoid.find_iter(&file_content) {
+                let em_no_space = space.replace_all(emailoid.as_str(), "");
+                let em_sane_at = atoid.replace_all(&em_no_space, "@");
+                let email = dotoid.replace_all(&em_sane_at, ".");
                 println!("{email}");
             }
         });
