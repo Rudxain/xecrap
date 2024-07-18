@@ -30,6 +30,10 @@ fn main() -> ExitCode {
                 None
             }
         })
+        // I could pre-load the next file
+        // while the current one is being processed,
+        // but that's too complicated for this crappy program,
+        // so I'll probably never optimize it
         .for_each(|file_content| {
             // find all sub-strs that look like email addresses
             for emailoid in is_emailoid.find_iter(&file_content) {
