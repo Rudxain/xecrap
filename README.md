@@ -9,7 +9,7 @@ I've been wondering "How advanced can an email scrapper get... *without AI*?", s
 
 This is just a personal project made for fun, and to learn [CS](https://en.wikipedia.org/wiki/Computer_science) and Rust.
 
-For the reasons mentioned, above I'll **never**:
+For the reasons mentioned above, **I won't**:
 - distribute executables/binaries (compile it yourself, MF)
 - release a `1.x` version (always unstable)
 - publish to Crates.io
